@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="my">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#5145e5">
+<title>SkillUp Myanmar</title>
+<style>
+:root{--bg:#f5f6ff;--card:#fff;--ink:#18203b;--muted:#68708a;--primary:#5145e5;--line:#e8eaf5;--green:#16865b;--gold:#ffbf47}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans Myanmar",sans-serif}
+header{background:linear-gradient(135deg,#5145e5,#8a55e9);color:#fff;padding:24px 18px 28px;border-radius:0 0 28px 28px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-size:20px;font-weight:850;letter-spacing:-.4px}.tag{font-size:12px;opacity:.88;margin-top:3px}
+button,select{font:inherit;cursor:pointer}.lang{background:#ffffff20;color:white;border:1px solid #ffffff55;border-radius:12px;padding:8px 10px}
+main{max-width:760px;margin:auto;padding:16px 14px 92px}.welcome{font-size:22px;font-weight:800;margin:4px 0 6px}.sub{font-size:13px;opacity:.85}
+.wallet{margin-top:20px;background:#ffffff18;border:1px solid #ffffff35;border-radius:20px;padding:17px;display:flex;justify-content:space-between;align-items:center;gap:10px}.wallet small{opacity:.85}.points{font-size:30px;font-weight:850;margin-top:3px}.coin{font-size:34px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 4px 18px #27306b08}.section-title{font-size:18px;font-weight:800;margin:22px 2px 10px}.feature{min-height:128px}.emoji{font-size:27px}.feature h3{margin:9px 0 4px;font-size:15px}.muted{color:var(--muted);font-size:12px;line-height:1.6}.btn{border:0;border-radius:12px;background:var(--primary);color:#fff;padding:11px 14px;font-weight:750;width:100%;margin-top:12px}.btn.secondary{background:#eeedff;color:var(--primary)}.btn:disabled{opacity:.45;cursor:not-allowed}
+.panel{display:none}.panel.active{display:block}.question{font-size:17px;font-weight:750;line-height:1.6;margin:8px 0 14px}.answers{display:grid;gap:9px}.answer{border:1px solid var(--line);background:#fff;text-align:left;padding:13px;border-radius:12px;color:var(--ink)}.answer:hover{border-color:var(--primary)}.answer.correct{background:#e4f8ee;border-color:#5bc18c}.answer.wrong{background:#fff0f0;border-color:#ee9292}.notice{font-size:13px;margin-top:12px;min-height:22px;color:var(--green)}
+.rank{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}.rank:last-child{border-bottom:0}.avatar{width:38px;height:38px;border-radius:13px;background:#eeedff;display:grid;place-items:center;font-weight:800;color:var(--primary)}.rankname{flex:1;font-weight:700}.rankpts{font-size:13px;font-weight:800;color:var(--primary)}
+input{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;font:inherit;margin:5px 0 10px}.reward{display:flex;align-items:center;gap:12px}.reward .info{flex:1}.pill{font-size:11px;background:#fff3d6;color:#895d00;padding:5px 8px;border-radius:99px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:5}.navinner{width:100%;max-width:760px;display:grid;grid-template-columns:repeat(4,1fr);padding:7px 4px calc(7px + env(safe-area-inset-bottom))}.navbtn{background:transparent;border:0;color:var(--muted);font-size:11px;padding:5px 0;display:flex;flex-direction:column;align-items:center;gap:3px}.navbtn span:first-child{font-size:20px}.navbtn.active{color:var(--primary);font-weight:800}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:20px 4px}
+@media(min-width:600px){main{padding-top:22px}.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.feature{min-height:145px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div><div class="brand">🚀 SkillUp Myanmar</div><div class="tag">Learn • Play • Grow</div></div>
+    <select class="lang" id="lang" aria-label="Language"><option value="my">မြန်မာ</option><option value="en">English</option></select>
+  </div>
+  <div style="margin-top:22px"><div class="welcome" id="welcome">မင်္ဂလာပါ 👋</div><div class="sub" id="dailySub">ဒီနေ့ အသစ်တစ်ခု သင်ယူကြမယ်။</div></div>
+  <div class="wallet"><div><small id="pointsLabel">သင့် Points</small><div class="points"><span id="points">0</span> <span style="font-size:15px">pts</span></div><small id="walletSub">Quiz ဖြေပြီး Points စုပါ</small></div><div class="coin">🪙</div></div>
+</header>
+<main>
+  <section class="panel active" id="home">
+    <div class="section-title" id="quickTitle">စတင်လေ့လာမယ်</div>
+    <div class="grid">
+      <div class="card feature"><div class="emoji">🧠</div><h3 id="quizCardTitle">နေ့စဉ် Quiz</h3><div class="muted" id="quizCardSub">မေးခွန်းဖြေပြီး အမှတ်ယူပါ</div><button class="btn" onclick="showPanel('quiz')" id="startQuiz">Quiz စမယ်</button></div>
+      <div class="card feature"><div class="emoji">🏆</div><h3 id="rankCardTitle">အဆင့်စာရင်း</h3><div class="muted" id="rankCardSub">သင့်ရဲ့ ရပ်တည်မှုကို ကြည့်ပါ</div><button class="btn secondary" onclick="showPanel('leaderboard')" id="seeRanks">ကြည့်မယ်</button></div>
+      <div class="card feature"><div class="emoji">🎁</div><h3 id="rewardCardTitle">ဆုလက်ဆောင်</h3><div class="muted" id="rewardCardSub">Points နဲ့ ဆုတောင်းဆိုပါ</div><button class="btn secondary" onclick="showPanel('rewards')" id="seeRewards">ဆုကြည့်မယ်</button></div>
+      <div class="card feature"><div class="emoji">📚</div><h3 id="wordTitle">ဒီနေ့ စကားလုံး</h3><div class="muted" id="wordSub">Improve — တိုးတက်စေသည်</div><button class="btn secondary" onclick="showPanel('quiz')" id="learnNow">လေ့လာမယ်</button></div>
+    </div>
+    <div class="section-title" id="howTitle">ဘယ်လိုအလုပ်လုပ်လဲ?</div>
+    <div class="card"><div style="font-weight:750" id="howOne">1. Quiz ဖြေပါ</div><div class="muted" id="howOneSub">မေးခွန်းတစ်ခုစီအတွက် အဖြေမှန်ရွေးပါ။</div><div style="font-weight:750;margin-top:12px" id="howTwo">2. Points စုပါ</div><div class="muted" id="howTwoSub">အဖြေမှန်တစ်ခုအတွက် 10 Points ရပါမယ်။</div><div style="font-weight:750;margin-top:12px" id="howThree">3. ဆုတောင်းဆိုပါ</div><div class="muted" id="howThreeSub">ဆုလဲလှယ်မှုက ဒီ Demo မှာ စမ်းသပ်ရန်သာဖြစ်ပါတယ်။</div></div>
+  </section>
+  <section class="panel" id="quiz">
+    <div class="section-title" id="quizTitle">English Quiz</div>
+    <div class="card"><div class="muted" id="questionCount">မေးခွန်း 1 / 5</div><div class="question" id="question">Loading…</div><div class="answers" id="answers"></div><div class="notice" id="quizNotice" aria-live="polite"></div><button class="btn" id="nextBtn" onclick="nextQuestion()" disabled>နောက်မေးခွန်း</button><button class="btn secondary" id="restartBtn" onclick="restartQuiz()" style="display:none">ထပ်ဖြေမယ်</button></div>
+    <p class="muted" id="quizHint">အဖြေမှန်တစ်ခု = 10 Points။ မေးခွန်းတစ်ခုကို တစ်ကြိမ်သာ အမှတ်ရနိုင်ပါတယ်။</p>
+  </section>
+  <section class="panel" id="leaderboard">
+    <div class="section-title" id="leaderTitle">🏆 Leaderboard</div>
+    <div class="card" id="rankList"></div>
+    <p class="muted" id="leaderHint">ဒီစာရင်းက Demo အတွက် နမူနာအမည်များပါဝင်ပါတယ်။ အမှန်တကယ်အသုံးပြုသူအဆင့်စာရင်းအတွက် Firebase ချိတ်ဆက်ရန်လိုပါတယ်။</p>
+  </section>
+  <section class="panel" id="rewards">
+    <div class="section-title" id="rewardsTitle">🎁 ဆုလဲလှယ်ရန်</div>
+    <div class="card">
+      <div class="reward"><div class="emoji">📘</div><div class="info"><strong id="reward1Name">Study Badge</strong><div class="muted" id="reward1Sub">သင်ယူမှုအတွက် Digital Badge</div></div><span class="pill">100 pts</span></div>
+      <button class="btn" onclick="redeem(100,'Study Badge')" id="redeem1">တောင်းဆိုမယ်</button>
+      <hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+      <div class="reward"><div class="emoji">🎓</div><div class="info"><strong id="reward2Name">Learning Certificate</strong><div class="muted" id="reward2Sub">နမူနာ Certificate တောင်းဆိုမှု</div></div><span class="pill">250 pts</span></div>
+      <button class="btn" onclick="redeem(250,'Learning Certificate')" id="redeem2">တောင်းဆိုမယ်</button>
+      <div class="notice" id="redeemNotice" aria-live="polite"></div>
+    </div>
+    <div class="section-title" id="requestsTitle">သင့်တောင်းဆိုမှုများ</div><div class="card" id="requests"><div class="muted" id="noRequests">တောင်းဆိုမှု မရှိသေးပါ။</div></div>
+    <p class="muted" id="rewardHint">သတိပြုရန် — ဒီ Demo မှာ ငွေသားမပေးပါ၊ ဆုတောင်းဆိုမှုကို Server သို့ မပို့ပါ။</p>
+  </section>
+  <footer>SkillUp Myanmar • Demo v1.0</footer>
+</main>
+<nav><div class="navinner">
+  <button class="navbtn active" data-panel="home" onclick="showPanel('home')"><span>🏠</span><span id="navHome">Home</span></button>
+  <button class="navbtn" data-panel="quiz" onclick="showPanel('quiz')"><span>🧠</span><span id="navQuiz">Quiz</span></button>
+  <button class="navbtn" data-panel="leaderboard" onclick="showPanel('leaderboard')"><span>🏆</span><span id="navRanks">Ranks</span></button>
+  <button class="navbtn" data-panel="rewards" onclick="showPanel('rewards')"><span>🎁</span><span id="navRewards">Rewards</span></button>
+</div></nav>
+<script>
+const copy = {
+my:{
+welcome:"မင်္ဂလာပါ 👋",dailySub:"ဒီနေ့ အသစ်တစ်ခု သင်ယူကြမယ်။",pointsLabel:"သင့် Points",walletSub:"Quiz ဖြေပြီး Points စုပါ",quickTitle:"စတင်လေ့လာမယ်",
+quizCardTitle:"နေ့စဉ် Quiz",quizCardSub:"မေးခွန်းဖြေပြီး အမှတ်ယူပါ",startQuiz:"Quiz စမယ်",rankCardTitle:"အဆင့်စာရင်း",rankCardSub:"သင့်ရဲ့ ရပ်တည်မှုကို ကြည့်ပါ",seeRanks:"ကြည့်မယ်",rewardCardTitle:"ဆုလက်ဆောင်",rewardCardSub:"Points နဲ့ ဆုတောင်းဆိုပါ",seeRewards:"ဆုကြည့်မယ်",wordTitle:"ဒီနေ့ စကားလုံး",wordSub:"Improve — တိုးတက်စေသည်",learnNow:"လေ့လာမယ်",howTitle:"ဘယ်လိုအလုပ်လုပ်လဲ?",howOne:"1. Quiz ဖြေပါ",howOneSub:"မေးခွန်းတစ်ခုစီအတွက် အဖြေမှန်ရွေးပါ။",howTwo:"2. Points စုပါ",howTwoSub:"အဖြေမှန်တစ်ခုအတွက် 10 Points ရပါမယ်။",howThree:"3. ဆုတောင်းဆိုပါ",howThreeSub:"ဆုလဲလှယ်မှုက ဒီ Demo မှာ စမ်းသပ်ရန်သာဖြစ်ပါတယ်။",
+quizTitle:"English Quiz",question:"မေးခွန်း",questionCount:"မေးခွန်း",nextBtn:"နောက်မေးခွန်း",restartBtn:"ထပ်ဖြေမယ်",quizHint:"အဖြေမှန်တစ်ခု = 10 Points။ မေးခွန်းတစ်ခုကို တစ်ကြိမ်သာ အမှတ်ရနိုင်ပါတယ်။",leaderTitle:"🏆 အဆင့်စာရင်း",leaderHint:"ဒီစာရင်းက Demo အတွက် နမူနာအမည်များပါဝင်ပါတယ်။ အမှန်တကယ်အသုံးပြုသူအဆင့်စာရင်းအတွက် Firebase ချိတ်ဆက်ရန်လိုပါတယ်။",
+rewardsTitle:"🎁 ဆုလဲလှယ်ရန်",reward1Sub:"သင်ယူမှုအတွက် Digital Badge",reward2Sub:"နမူနာ Certificate တောင်းဆိုမှု",redeem1:"တောင်းဆိုမယ်",redeem2:"တောင်းဆိုမယ်",requestsTitle:"သင့်တောင်းဆိုမှုများ",noRequests:"တောင်းဆိုမှု မရှိသေးပါ။",rewardHint:"သတိပြုရန် — ဒီ Demo မှာ ငွေသားမပေးပါ၊ ဆုတောင်းဆိုမှုကို Server သို့ မပို့ပါ။",navHome:"မူလ",navQuiz:"Quiz",navRanks:"အဆင့်",navRewards:"ဆုများ",correct:"အဖြေမှန်ပါသည်! +10 Points 🎉",wrong:"မမှန်ပါဘူး။ နောက်တစ်ကြိမ် ကြိုးစားပါ။",already:"ဒီမေးခွန်းကို ဖြေပြီးပါပြီ။",complete:"Quiz ပြီးပါပြီ! ရလဒ်",insufficient:"Points မလုံလောက်ပါ။",redeemSuccess:"Demo တောင်းဆိုမှု သိမ်းပြီးပါပြီ။",requested:"တောင်းဆိုထားသည်",pts:"Points"
+},
+en:{
+welcome:"Hello there 👋",dailySub:"Learn something new today.",pointsLabel:"Your Points",walletSub:"Earn points by taking quizzes",quickTitle:"Start learning",
+quizCardTitle:"Daily Quiz",quizCardSub:"Answer questions to earn points",startQuiz:"Start Quiz",rankCardTitle:"Leaderboard",rankCardSub:"See your current standing",seeRanks:"View ranks",rewardCardTitle:"Rewards",rewardCardSub:"Request a reward with points",seeRewards:"View rewards",wordTitle:"Word of the day",wordSub:"Improve — to make better",learnNow:"Learn now",howTitle:"How it works",howOne:"1. Take a quiz",howOneSub:"Choose the correct answer for each question.",howTwo:"2. Collect points",howTwoSub:"Earn 10 points for every correct answer.",howThree:"3. Request a reward",howThreeSub:"Reward requests are only simulated in this demo.",
+quizTitle:"English Quiz",question:"Question",questionCount:"Question",nextBtn:"Next question",restartBtn:"Try again",quizHint:"One correct answer = 10 points. Each question can earn points only once.",leaderTitle:"🏆 Leaderboard",leaderHint:"Sample names are shown for demo purposes. Firebase is needed for real user rankings.",
+rewardsTitle:"🎁 Redeem rewards",reward1Sub:"A digital badge for learning",reward2Sub:"Sample certificate request",redeem1:"Request reward",redeem2:"Request reward",requestsTitle:"Your requests",noRequests:"No requests yet.",rewardHint:"Note: This demo does not pay cash or send reward requests to a server.",navHome:"Home",navQuiz:"Quiz",navRanks:"Ranks",navRewards:"Rewards",correct:"Correct! +10 points 🎉",wrong:"Not quite. Try again next time.",already:"You have already answered this question.",complete:"Quiz complete! Score",insufficient:"Not enough points.",redeemSuccess:"Demo request saved.",requested:"Requested",pts:"Points"
+}};
+const questions=[
+{q:"What does “Improve” mean in Myanmar?",a:["တိုးတက်စေသည်","အိပ်သည်","မေ့သည်","ပြေးသည်"],correct:0, en:["Improve","Sleep","Forget","Run"]},
+{q:"Choose the correct sentence.",a:["She go to school.","She goes to school.","She going school.","She gone school."],correct:1,en:["She go to school.","She goes to school.","She going school.","She gone school."]},
+{q:"What is the past tense of “eat”?",a:["Eated","Eating","Ate","Eats"],correct:2,en:["Eated","Eating","Ate","Eats"]},
+{q:"“စာအုပ်” ကို English လို ဘယ်လိုပြောလဲ?",a:["Window","Book","Chair","Bottle"],correct:1,en:["Window","Book","Chair","Bottle"]},
+{q:"Choose the opposite of “big”.",a:["Tall","Long","Small","Fast"],correct:2,en:["Tall","Long","Small","Fast"]}
+];
+let points=Number(localStorage.getItem("skillup_points")||0), lang="my", qi=0, answered=false, earned=JSON.parse(localStorage.getItem("skillup_earned")||"[]"), requests=JSON.parse(localStorage.getItem("skillup_requests")||"[]");
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem("skillup_points",points);localStorage.setItem("skillup_earned",JSON.stringify(earned));localStorage.setItem("skillup_requests",JSON.stringify(requests));}
+function setText(id,key){if($(id)&&copy[lang][key]!==undefined)$(id).textContent=copy[lang][key]}
+function setLanguage(v){lang=v;document.documentElement.lang=v;Object.keys(copy[lang]).forEach(k=>{const el=document.getElementById(k);if(el)el.textContent=copy[lang][k]});$("points").textContent=points;renderQuestion();renderRanks();renderRequests();$("lang").value=lang}
+$("lang").addEventListener("change",e=>setLanguage(e.target.value));
+function showPanel(id){document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.panel===id));if(id==="quiz")renderQuestion();if(id==="leaderboard")renderRanks();if(id==="rewards")renderRequests();window.scrollTo({top:0,behavior:"smooth"})}
+function renderQuestion(){if(!$("question"))return;answered=false;$("quizNotice").textContent="";$("nextBtn").disabled=true;$("nextBtn").style.display=qi>=questions.length?"none":"block";$("restartBtn").style.display=qi>=questions.length?"block":"none";
+if(qi>=questions.length){$("questionCount").textContent=lang==="my"?"ပြီးဆုံးပါပြီ":"Completed";$("question").textContent=copy[lang].complete+" — "+questions.filter((q,i)=>earned.includes(i)).length*10+" "+copy[lang].pts;$("answers").innerHTML="";return}
+const q=questions[qi];$("questionCount").textContent=(lang==="my"?"မေးခွန်း ":"Question ")+(qi+1)+" / "+questions.length;$("question").textContent=q.q;$("answers").innerHTML="";q.a.forEach((a,i)=>{const b=document.createElement("button");b.className="answer";b.textContent=lang==="en"?q.en[i]:a;b.onclick=()=>chooseAnswer(i,b);$("answers").appendChild(b)})}
+function chooseAnswer(i,button){if(answered)return;answered=true;const q=questions[qi],buttons=[...$("answers").children];buttons.forEach((b,j)=>{b.disabled=true;if(j===q.correct)b.classList.add("correct")});if(i===q.correct){button.classList.add("correct");if(!earned.includes(qi)){points+=10;earned.push(qi);save();$("points").textContent=points}$("quizNotice").textContent=copy[lang].correct}else{button.classList.add("wrong");$("quizNotice").textContent=copy[lang].wrong}$("nextBtn").disabled=false}
+function nextQuestion(){if(qi<questions.length-1)qi++;else qi=questions.length;renderQuestion()}
+function restartQuiz(){qi=0;renderQuestion()}
+function renderRanks(){const list=[{name:"Learning Star",pts:320,avatar:"🌟"},{name:"English Hero",pts:250,avatar:"📘"},{name:"Quiz Master",pts:180,avatar:"🧠"},{name:"You",pts:points,avatar:"🙂"}].sort((a,b)=>b.pts-a.pts);$("rankList").innerHTML="";list.forEach((u,i)=>{const row=document.createElement("div");row.className="rank";row.innerHTML='<div class="avatar">'+(i+1)+'</div><div class="rankname">'+u.avatar+" "+u.name+(u.name==="You"?' <small>(You)</small>':"")+'</div><div class="rankpts">'+u.pts+' pts</div>';$("rankList").appendChild(row)})}
+function redeem(cost,name){if(points<cost){$("redeemNotice").textContent=copy[lang].insufficient;return}points-=cost;requests.unshift({name,cost,date:new Date().toLocaleDateString()});save();$("points").textContent=points;$("redeemNotice").textContent=copy[lang].redeemSuccess;renderRequests();renderRanks()}
+function renderRequests(){const el=$("requests");el.innerHTML="";if(!requests.length){el.innerHTML='<div class="muted">'+copy[lang].noRequests+'</div>';return}requests.forEach(r=>{const row=document.createElement("div");row.className="rank";row.innerHTML='<div class="avatar">🎁</div><div class="rankname">'+r.name+'<div class="muted">'+r.date+'</div></div><div class="rankpts">-'+r.cost+' pts</div>' ;el.appendChild(row)})}
+$("points").textContent=points;renderQuestion();renderRanks();renderRequests();
+</script>
+</body>
+</html>
